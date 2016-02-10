@@ -1,0 +1,6 @@
+
+Dynamic Programming
+-----------------------
+n     time (in milliseconds)
+=======================
+1024     40313326

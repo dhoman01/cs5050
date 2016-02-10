@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dustin/Documents/cs5050/dp-nim/src/main.cpp
+iostream
+-
+stdlib.h
+-
+time.h
+-
+tuple
+-
+map
+-
+fstream
+-
+algorithm
+-
+functional
+-
+
