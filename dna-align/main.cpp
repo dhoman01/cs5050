@@ -15,7 +15,10 @@ int match(char a, char b)
 
 stringstream& dp_traceback(std::vector<std::vector<int>> cache, stringstream& ss, int i, int j, std::string A, std::string B)
 {
-
+  int subD = cache[i-1][j] - 2;
+  int subI = cache[i][j-1] - 2;
+  int Swap = cache[i-1][j-1];
+  
 }
 
 std::vector<std::vector<int>> dp_align(std::string a, std::string b)

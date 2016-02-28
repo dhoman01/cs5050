@@ -49,7 +49,7 @@ int MED_DP(int a, int b)
     {
       int one = cache[i - 1][j] + 1; // possible deletion
       int two = cache[i][j - 1] + 1; // possible inserstion
-      int three = cache[i - 1][j - 1] + ((A[i] == B[j]) ? 0 : 1); // possible subsition or do nothing
+      int three = cache[i - 1][j - 1] + ((A[i - 1] == B[j - 1]) ? 0 : 1); // possible subsition or do nothing
 
       // Store the min of the three possible word edits
       cache[i][j] = std::min(one, std::min(two, three));
@@ -135,9 +135,11 @@ void do_dp_test(std::vector<std::string> misspelt_words, std::vector<std::string
   std::ofstream out_file("dp_results.out");
   out_file << "n     count" << std::endl;
   out_file << "===================" << std::endl;
+  int sum = 0;
   for(int i = 0; i < counts.size(); i++)
   {
     out_file << i << "     " << counts[i].first << std::endl;
+    sum += counts[i].first;
   }
 
   // Print out the Maximal MED and word pairs
@@ -148,6 +150,7 @@ void do_dp_test(std::vector<std::string> misspelt_words, std::vector<std::string
   });
 
   out_file.close();
+  std::cout << "Sum counts: " << sum << std::endl;
 }
 
 
@@ -209,6 +212,7 @@ int main()
   {
     do_dp_test(misspelt_words, correct_spelling, max_word_size);
   }
+  std::cout << "Size of list: " << misspelt_words.size() << std::endl;
 
   std::cout <<"Tests are finished..." << std::endl;
 
