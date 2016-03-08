@@ -13,12 +13,26 @@ int match(char a, char b)
   else return -1;
 }
 
+// opt_traceback
+// create vector<int> size of A
+// store "y" coordinate produced by dp_opt_space
+// Use this map to rebuild alignment
+
+/*
+P(x) = int[]
+Q(x) = int[]
+PQ(x) = int[]
+*/
+for(int i = 0; i < N; i++)
+  for(int j = 0; j < N; j++)
+    PQ[i+j] += P[i] * P[j];
+
 stringstream& dp_traceback(std::vector<std::vector<int>> cache, stringstream& ss, int i, int j, std::string A, std::string B)
 {
   int subD = cache[i-1][j] - 2;
   int subI = cache[i][j-1] - 2;
   int Swap = cache[i-1][j-1];
-  
+
 }
 
 std::vector<std::vector<int>> dp_align(std::string a, std::string b)
