@@ -35,7 +35,7 @@ void doPrintRunningTime(std::chrono::duration<double> child_runningtime)
   auto mill = std::chrono::duration_cast<std::chrono::milliseconds>(child_runningtime);
   child_runningtime -= mill;
   auto micro = std::chrono::duration_cast<std::chrono::microseconds>(child_runningtime);
-  std::cout << "***     Time spent executing: " << sec.count() << " seconds ";
+  std::cout << "\n\n***     Time spent executing: " << sec.count() << " seconds ";
   std::cout << mill.count() << " milliseconds and " << micro.count() << " microseconds     ***" << std::endl;
 }
 
@@ -55,9 +55,18 @@ int main()
   // std::cout << "Baseline " << baseline_score[proto_human.size()] << std::endl;
 
   auto start = std::chrono::steady_clock::now();
+  std::cout << "Proto-Human to Neandertal" << std::endl;
+  printElement('L',"+", 50,'+');
+  std::cout << std::endl;
   compareTo("../src/neandertal/neandertal",1,proto_human);
+  std::cout << "\nProto-Human to Human Races" << std::endl;
+  printElement('L',"+", 50,'+');
+  std::cout << std::endl;
   compareTo("../src/human/human",10,proto_human);
-  compareTo("../src/great-apes/ape",3,proto_human);
+  std::cout << "\nProto-Human to the Great Apes " << std::endl;
+  printElement('L',"+", 50,'+');
+  std::cout << std::endl;
+  compareTo("../src/great-apes/ape",6,proto_human);
   auto end = std::chrono::steady_clock::now();
 
   doPrintRunningTime(end - start);
@@ -334,6 +343,22 @@ void compareTo(std::string source_file, int numberOfFiles, std::string& source_m
     auto alignment = Hirshberg(source_mdna, sequence);
     write_alignment(ss.str().append(".alignment"), alignment);
   }
+
+  std::cout << "Scores Table" << std::endl;
+  std::for_each(scores.begin(), scores.end(),[](auto it){
+    printElement('L',it.first, 10, ' ');
+  });
+
+  std::cout << std::endl;
+  printElement('R',"-", scores.size() * 10, '-');
+  std::cout << std::endl;
+
+  std::for_each(scores.begin(), scores.end(),[](auto it){
+    printElement('L',it.second,10,' ');
+  });
+
+  std::cout << "\n" << std::endl;
+  std::cout << "Pairwise comparison" << std::endl;
   printElement('R'," ", 10, ' ');
   std::cout << "| ";
   std::for_each(scores.begin(), scores.end(),[](auto it){
@@ -341,7 +366,7 @@ void compareTo(std::string source_file, int numberOfFiles, std::string& source_m
   });
 
   std::cout << std::endl;
-  printElement('R',"-", 100, '-');
+  printElement('R',"-", (scores.size() + 1) * 10, '-');
   std::cout << std::endl;
 
   std::for_each(scores.begin(),scores.end(),[&scores](auto it){

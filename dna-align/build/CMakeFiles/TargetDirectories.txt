@@ -1,1 +1,1 @@
-/Users/dustinhoman/Documents/cs5050/dna-align/build/CMakeFiles/align.dir
+/home/dustin/Documents/cs5050/dna-align/build/CMakeFiles/align.dir

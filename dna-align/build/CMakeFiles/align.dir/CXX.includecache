@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/dustinhoman/Documents/cs5050/dna-align/src/main.cpp
+/home/dustin/Documents/cs5050/dna-align/src/main.cpp
 iostream
 -
 vector
