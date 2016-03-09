@@ -6,6 +6,9 @@
 #include <sstream>
 #include <fstream>
 #include <chrono>
+#include <cmath>
+#include <map>
+#include <iomanip>
 
 int match(char a, char b);
 
@@ -24,14 +27,7 @@ std::string read_mDNA(std::string filename);
 void write_alignment(std::string filename, std::string& alignment);
 
 void compareTo(std::string source_file, int numberOfFiles, std::string& source_mdna);
-/*
-P(x) = int[]
-Q(x) = int[]
-PQ(x) = int[]
-*/
-// for(int i = 0; i < N; i++)
-//   for(int j = 0; j < N; j++)
-//     PQ[i+j] += P[i] * P[j];
+
 void doPrintRunningTime(std::chrono::duration<double> child_runningtime)
 {
   auto sec = std::chrono::duration_cast<std::chrono::seconds>(child_runningtime);
@@ -43,16 +39,25 @@ void doPrintRunningTime(std::chrono::duration<double> child_runningtime)
   std::cout << mill.count() << " milliseconds and " << micro.count() << " microseconds     ***" << std::endl;
 }
 
+template<typename T>
+void printElement(char align, T t, const int& width, char fill)
+{
+    std::cout << (align == 'L' ? std::left : std::right) << std::setw(width) << std::setfill(fill) << t;
+}
+
+std::string fileToNameMap(std::string filename);
+
 int main()
 {
   std::string proto_human = read_mDNA("../src/proto-human.mdna");
-  auto baseline_score = dp_align_opt(proto_human, proto_human);
+  // auto baseline_score = dp_align_opt(proto_human, proto_human);
 
-  std::cout << "Baseline " << baseline_score[proto_human.size()] << std::endl;
+  // std::cout << "Baseline " << baseline_score[proto_human.size()] << std::endl;
 
   auto start = std::chrono::steady_clock::now();
   compareTo("../src/neandertal/neandertal",1,proto_human);
   compareTo("../src/human/human",10,proto_human);
+  compareTo("../src/great-apes/ape",3,proto_human);
   auto end = std::chrono::steady_clock::now();
 
   doPrintRunningTime(end - start);
@@ -90,6 +95,7 @@ int match(char a, char b)
         break;
     }
   }
+  return -99999;
 }
 
 int partition(std::vector<int>& scoreL, std::vector<int>& scoreR)
@@ -195,6 +201,7 @@ std::string dp_traceback(std::vector<std::vector<int>> cache, int i, int j, std:
     ss << dp_traceback(cache, i-1, j-1, A, B) << A[i-1] << " -> " << B[j-1] << " (" << match(A[i-1], B[j-1]) << ")" << std::endl;
     return ss.str();
   }
+  return ss.str();
 }
 
 std::string dp_align(std::string& a, std::string& b)
@@ -314,18 +321,65 @@ void write_alignment(std::string filename, std::string& alignment)
 
 void compareTo(std::string source_file, int numberOfFiles, std::string& source_mdna)
 {
-  std::vector<int> scores;
+  std::map<std::string,int> scores;
   for(int i = 1; i <= numberOfFiles; i++)
   {
     std::stringstream ss;
     ss << source_file << "-" << i << ".mdna";
     std::string sequence = read_mDNA(ss.str());
-    scores.push_back(dp_align_opt(source_mdna,sequence)[sequence.size()]);
+    std::string fn = fileToNameMap(ss.str());
+    auto score = dp_align_opt(source_mdna,sequence);
+    scores[fn] = score[sequence.size()];
+    scores.insert(std::pair<std::string,int>(fn,score[sequence.size()]));
     auto alignment = Hirshberg(source_mdna, sequence);
     write_alignment(ss.str().append(".alignment"), alignment);
   }
-  for(int i = 1; i <= numberOfFiles; i++)
+  printElement('R'," ", 10, ' ');
+  std::cout << "| ";
+  std::for_each(scores.begin(), scores.end(),[](auto it){
+    printElement('R',it.first, 10, ' ');
+  });
+
+  std::cout << std::endl;
+  printElement('R',"-", 100, '-');
+  std::cout << std::endl;
+
+  std::for_each(scores.begin(),scores.end(),[&scores](auto it){
+    printElement('L',it.first,10, ' ');
+    std::cout << "|";
+    int scr = it.second;
+    std::for_each(scores.begin(),scores.end(),[&scr](auto it){
+      printElement('R',std::abs(scr - it.second),10, ' ');
+    });
+    std::cout << std::endl;
+  });
+}
+
+std::string fileToNameMap(std::string filename)
+{
+  if(filename.find("neandertal") != std::string::npos) return "Neandertal";
+  if(filename.find("human") != std::string::npos)
   {
-    std::cout << "Proto-Human to " << source_file << "-" << i << " score: " << scores[i-1] << std::endl;
+    if(filename.find("1") != std::string::npos) return "Italy";
+    else if(filename.find("2") != std::string::npos) return "Dutch";
+    else if(filename.find("3") != std::string::npos) return "Egypt";
+    else if(filename.find("4") != std::string::npos) return "Ethiopia";
+    else if(filename.find("5") != std::string::npos) return "Indian";
+    else if(filename.find("6") != std::string::npos) return "Israel";
+    else if(filename.find("7") != std::string::npos) return "Navajo";
+    else if(filename.find("8") != std::string::npos) return "S. Africa";
+    else if(filename.find("9") != std::string::npos) return "Spain";
+    else if(filename.find("10") != std::string::npos) return "Tonga";
   }
+  if(filename.find("ape") != std::string::npos)
+  {
+    if(filename.find("1") != std::string::npos) return "Baboon";
+    else if(filename.find("2") != std::string::npos) return "Bonobo";
+    else if(filename.find("3") != std::string::npos) return "Chimp 1";
+    else if(filename.find("4") != std::string::npos) return "Chimp 2";
+    else if(filename.find("5") != std::string::npos) return "Gorilla 1";
+    else if(filename.find("6") != std::string::npos) return "Gorilla 2";
+  }
+
+  return "Unknown";
 }

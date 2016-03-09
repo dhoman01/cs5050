@@ -1,1 +1,1 @@
-/usr/bin/c++    -std=c++14 -O0 -g3   CMakeFiles/align.dir/main.cpp.o  -o align -rdynamic 
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++14 -O3 -g0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/align.dir/main.cpp.o  -o align  
