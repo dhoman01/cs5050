@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++14 -O0 -g3   CMakeFiles/align.dir/main.cpp.o  -o align -rdynamic 

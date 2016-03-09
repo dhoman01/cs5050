@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dustin/Documents/cs5050/dna-align/src/main.cpp
+iostream
+-
+vector
+-
+cstdlib
+-
+string
+-
+algorithm
+-
+sstream
+-
+fstream
+-
+chrono
+-
+
