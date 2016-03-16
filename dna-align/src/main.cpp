@@ -331,6 +331,7 @@ void write_alignment(std::string filename, std::string& alignment)
 void compareTo(std::string source_file, int numberOfFiles, std::string& source_mdna)
 {
   std::map<std::string,int> scores;
+  scores["Human"] = source_mdna.size() * 5;
   for(int i = 1; i <= numberOfFiles; i++)
   {
     std::stringstream ss;
@@ -339,7 +340,6 @@ void compareTo(std::string source_file, int numberOfFiles, std::string& source_m
     std::string fn = fileToNameMap(ss.str());
     auto score = dp_align_opt(source_mdna,sequence);
     scores[fn] = score[sequence.size()];
-    scores.insert(std::pair<std::string,int>(fn,score[sequence.size()]));
     auto alignment = Hirshberg(source_mdna, sequence);
     write_alignment(ss.str().append(".alignment"), alignment);
   }
