@@ -1,0 +1,51 @@
+Doing test with sequence size 10^1
+Doing test with sequence size 10^2
+Doing test with sequence size 10^3
+Doing test with sequence size 10^4
+Doing test with sequence size 10^5
+Doing test with sequence size 10^6
+Caught bad_alloc exception at size 10^6 std::bad_alloc
+Doing test with sequence size 10^7
+Doing test with sequence size 10^8
+Doing test with sequence size 10^9
+Caught bad_alloc exception at size 10^9 std::bad_alloc
+Proto-Human to Neandertal
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Proto-Human to Neandertal score: 81380
+
+Human Diversity
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Pairwise comparison
+           |       Dutch      Egypt   Ethiopia     Indian     Israel      Italy     Navajo  S. Africa      Spain
+--------------------------------------------------------------------------------------------------------------
+Dutch      |      82835      82525      82618      82569      82556      82552      82588      82348      82601
+Egypt      |      82525      82850      82514      82610      82685      82457      82524      82320      82483
+Ethiopia   |      82618      82514      82845      82544      82524      82531      82563      82313      82646
+Indian     |      82569      82610      82544      82845      82615      82454      82528      82376      82527
+Israel     |      82556      82685      82524      82615      82840      82438      82526      82330      82493
+Italy      |      82552      82457      82531      82454      82438      82800      82512      82233      82513
+Navajo     |      82588      82524      82563      82528      82526      82512      82850      82311      82545
+S. Africa  |      82348      82320      82313      82376      82330      82233      82311      82835      82282
+Spain      |      82601      82483      82646      82527      82493      82513      82545      82282      82850
+
+Proto-Human to the Great Apes
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Pairwise comparison
+           |      Baboon     Bonobo    Chimp 1    Chimp 2  Gorilla 1  Gorilla 2Proto-Human
+----------------------------------------------------------------------------------------
+Baboon     |      82605      61169      61040      61031      60036      60213      56900
+Bonobo     |      61169      82815      78087      78111      70212      70572      67851
+Chimp 1    |      61040      78087      82770      82194      70036      70318      67720
+Chimp 2    |      61031      78111      82194      82805      70079      70388      67754
+Gorilla 1  |      60036      70212      70036      70079      81820      81050      66156
+Gorilla 2  |      60213      70572      70318      70388      81050      82060      66122
+Proto-Human|      56900      67851      67720      67754      66156      66122      82840
+
+Waiting on last file to write...
+
+
+***     Time spent executing: 723 seconds 22 milliseconds and 148 microseconds     ***
