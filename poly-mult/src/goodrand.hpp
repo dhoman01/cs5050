@@ -4,6 +4,10 @@
 #include <random>
 
 namespace RAND {
+
+// Get a random integer with
+// uniform distribution in the
+// range l to u
 int getRand(int l, int u) {
   static std::random_device rd;
   static std::mt19937 mt(rd());
@@ -11,6 +15,9 @@ int getRand(int l, int u) {
   return d(mt);
 }
 
+// Get a random double with
+// uniform distribution in the
+// range l to u
 double getRand(double l, double u) {
   static std::random_device rd;
   static std::mt19937 mt(rd());
