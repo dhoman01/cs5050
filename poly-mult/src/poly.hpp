@@ -108,7 +108,7 @@ template <typename T> T constructSolution(T &low, T &mid, T &high) {
 }
 
 // Naive polynomial multiplication algorithm
-template <typename T> std::unique_ptr<T> naiveMult(T &P, T &Q) {
+template <typename T> std::unique_ptr<T> naiveMult(T P, T Q) {
   auto PQ = std::make_unique<T>(P.size() * 2 - 1, 0);
   for (int i = 0; i < P.size(); i++) {
     for (int j = 0; j < P.size(); j++) {
@@ -121,7 +121,7 @@ template <typename T> std::unique_ptr<T> naiveMult(T &P, T &Q) {
 
 // 3x mult, divide and conquer algorithm
 // for polynomial multiplication
-template <typename T> T mult(T &P, T &Q) {
+template <typename T> T mult(T P, T Q) {
   // Simple Problem
   if (P.size() == 1 && Q.size() == 1) {
     T PQ(1, 0);
@@ -198,7 +198,7 @@ template <typename T> void padHighOrder(T &P, int n) {
 }
 
 // Perform polynomial multiplication using the FFT
-template <typename T> T FFTmult(T &P, T &Q, T &W, int n) {
+template <typename T> T FFTmult(T P, T Q, T W, int n) {
   // Pad P and Q with zeros
   padHighOrder(P, n);
   padHighOrder(Q, n);
