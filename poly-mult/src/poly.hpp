@@ -2,7 +2,9 @@
 #define POLY_HPP
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
+#include <complex>
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -12,7 +14,7 @@
 
 namespace POLY {
 
-const double EPSILON = .00000001;
+const double EPSILON = .0000001;
 
 // Print a polynomial
 template <typename T> std::string printPoly(T &P) {
@@ -27,14 +29,46 @@ template <typename T> std::string printPoly(T &P) {
 // For doubles ensure they are close enough,
 // as rounding will cause some descripency.
 // Adjust EPSILON for precision
-template <typename T> bool equal(T &P, T &Q) {
-  for (int i = 0; i < P.size(); i++) {
+template <typename T> bool equal(T &P, T &Q, int n) {
+  for (int i = 0; i < n; i++) {
     if (std::abs(P[i] - Q[i]) > EPSILON) {
       return false;
     }
   }
 
   return true;
+}
+
+// Multiply the values of two arrays
+template <typename T> T multiplyValues(T &P, T &Q) {
+  T PQ(P.size());
+  for (int i = 0; i < P.size(); i++) {
+    PQ[i] = P[i] * Q[i];
+  }
+
+  return PQ;
+}
+
+// Multiply the Coefficients of a polynomial by a constant value
+template <typename T, typename V> void multiplyValues(T &P, V value) {
+  std::for_each(P.begin(), P.end(), [=](auto &n) { n *= value; });
+}
+
+// Divide teh Coefficients of a polynomial by a constant value
+template <typename T, typename V> void divideValues(T &P, V value) {
+  std::for_each(P.begin(), P.end(), [=](auto &n) { n /= value; });
+}
+
+// Invert the Coefficients of a polynomial
+template <typename T> void invert(T &P) {
+  std::for_each(P.begin(), P.end(), [](auto &n) { n = std::pow(n, -1); });
+}
+
+// Invert a copy of a polynomial
+template <typename T> T copy_invert(T &P) {
+  T P_inv(P);
+  invert(P_inv);
+  return P_inv;
 }
 
 // Sum the Coefficients of two polynomials
@@ -122,6 +156,76 @@ template <typename T> T mult(T &P, T &Q) {
   sol_m = sub(sol_m, sol_h); // - (b * d)
 
   return constructSolution(sol_l, sol_m, sol_h);
+}
+
+template <typename T> T FFT(T &P, T &W, int n) {
+  // Simplest problem
+  if (n == 1)
+    return P;
+
+  // Problem decomposition
+  T P_odd(n / 2);
+  T P_even(n / 2);
+  for (int i = 0; i < (n / 2); i++) {
+    P_odd[i] = P[2 * i + 1];
+    P_even[i] = P[2 * i];
+  }
+
+  // Generate correct omega values
+  T W_2(n / 2);
+  for (int j = 0; j < (n / 2); j++) {
+    W_2[j] = W[2 * j] * W[2 * j];
+  }
+
+  // Compute sub-problems
+  auto soleven = FFT(P_even, W_2, n / 2);
+  auto solodd = FFT(P_odd, W_2, n / 2);
+
+  // Construct solution
+  T sol(n);
+  for (int j = 0; j < (n / 2); j++) {
+    sol[j] = soleven[j] + W[j] * solodd[j];
+    sol[j + n / 2] = soleven[j] - W[j] * solodd[j];
+  }
+
+  return sol;
+}
+
+// Pad the higher order Coefficients of P with 0
+template <typename T> void padHighOrder(T &P, int n) {
+  for (int i = 0; i < n; i++)
+    P.push_back(0);
+}
+
+// Perform polynomial multiplication using the FFT
+template <typename T> T FFTmult(T &P, T &Q, T &W, int n) {
+  // Pad P and Q with zeros
+  padHighOrder(P, n);
+  padHighOrder(Q, n);
+
+  assert(P.size() == 2 * n);
+
+  // Evaluate P and Q at nth roots
+  // of unity
+  auto P_x = FFT(P, W, 2 * n);
+  auto Q_x = FFT(Q, W, 2 * n);
+  auto PQ_x = multiplyValues(P_x, Q_x);
+
+  // Calculate the nth root inverses
+  T W_inv = copy_invert(W);
+
+  // Find the Coefficients of PQ
+  // via Interpolation with the
+  // inverse of FFT
+  auto PQ = FFT(PQ_x, W_inv, 2 * n);
+
+  // Divide the above result by
+  // 2*n to complete calculation of
+  // the inverse of FFT
+  divideValues(PQ, (2 * n));
+
+  // Return the solution
+  return PQ;
 }
 }
 
