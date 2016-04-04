@@ -14,7 +14,7 @@
 
 int main() {
   const auto N_START = 32;
-  const auto N_END = std::pow(2, 15);
+  const auto N_END = std::pow(2, 30);
 
   const auto P_COEF_LOW = -1.0;
   const auto P_COEF_HIGH = 1.0;
