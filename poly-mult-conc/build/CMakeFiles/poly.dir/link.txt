@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++14 -O3 -g0   CMakeFiles/poly.dir/main.cpp.o  -o poly -rdynamic 

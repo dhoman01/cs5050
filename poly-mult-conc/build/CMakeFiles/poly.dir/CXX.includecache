@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dustin/Documents/cs5050/poly-mult/src/goodrand.hpp
+random
+-
+
+/home/dustin/Documents/cs5050/poly-mult/src/main.cpp
+goodrand.hpp
+/home/dustin/Documents/cs5050/poly-mult/src/goodrand.hpp
+poly.hpp
+/home/dustin/Documents/cs5050/poly-mult/src/poly.hpp
+chrono
+-
+cmath
+-
+cstdlib
+-
+iostream
+-
+sstream
+-
+string
+-
+
+/home/dustin/Documents/cs5050/poly-mult/src/poly.hpp
+algorithm
+-
+iostream
+-
+memory
+-
+sstream
+-
+vector
+-
+
